@@ -199,11 +199,11 @@ plt.rcParams.update({
 # ── Data loading ──────────────────────────────────────────────────────────────
 @st.cache_data
 def load_data():
-    return pd.read_csv("../data/processed/traffic_features.csv")
+    return pd.read_csv("./data/processed/traffic_features.csv")
 
 @st.cache_resource
 def load_model():
-    return joblib.load("../models/traffic_model.pkl")
+    return joblib.load("./models/traffic_model.pkl")
 
 @st.cache_data
 def compute_predictions(_model, df):
