@@ -7,7 +7,7 @@ import joblib
 
 from sklearn.metrics import mean_absolute_error, mean_squared_error, r2_score
 
-# ── Page config ──────────────────────────────────────────────────────────────
+
 st.set_page_config(
     page_title="Traffic · Ai",
     page_icon="🛣️",
@@ -15,7 +15,7 @@ st.set_page_config(
     initial_sidebar_state="collapsed",
 )
 
-# ── Global CSS ────────────────────────────────────────────────────────────────
+
 st.markdown("""
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500&display=swap');
@@ -167,7 +167,7 @@ hr { border-color: #1A1A1A !important; }
 </style>
 """, unsafe_allow_html=True)
 
-# ── Matplotlib dark theme ─────────────────────────────────────────────────────
+
 BG     = "#141414"
 FG     = "#E8E4DC"
 GRID   = "#1E1E1E"
@@ -196,7 +196,6 @@ plt.rcParams.update({
     "font.family":      "monospace",
 })
 
-# ── Data loading ──────────────────────────────────────────────────────────────
 @st.cache_data
 def load_data():
     return pd.read_csv("./data/processed/traffic_features.csv")
@@ -252,9 +251,7 @@ st.markdown(f"""
 </div>
 """, unsafe_allow_html=True)
 
-# ═══════════════════════════════════════════════════════════════════════════════
-# KPI ROW
-# ═══════════════════════════════════════════════════════════════════════════════
+
 st.markdown(f"""
 <div class="kpi-row">
   <div class="kpi" style="--accent:#FF5C2B">
@@ -280,9 +277,7 @@ st.markdown(f"""
 </div>
 """, unsafe_allow_html=True)
 
-# ═══════════════════════════════════════════════════════════════════════════════
-# ROW 1 — Prédictions vs Réel | Distribution
-# ═══════════════════════════════════════════════════════════════════════════════
+
 st.markdown('<p class="section-title">📈 Analyse des prédictions</p>', unsafe_allow_html=True)
 
 col1, col2 = st.columns([2, 1], gap="medium")
@@ -318,9 +313,7 @@ with col2:
 
 st.markdown("<br>", unsafe_allow_html=True)
 
-# ═══════════════════════════════════════════════════════════════════════════════
-# ROW 2 — Features | Heure
-# ═══════════════════════════════════════════════════════════════════════════════
+
 st.markdown('<p class="section-title">🔍 Importance & patterns horaires</p>', unsafe_allow_html=True)
 
 col3, col4 = st.columns(2, gap="medium")
@@ -365,9 +358,6 @@ with col4:
 
 st.markdown("<br>", unsafe_allow_html=True)
 
-# ═══════════════════════════════════════════════════════════════════════════════
-# ROW 3 — Résidus | Semaine
-# ═══════════════════════════════════════════════════════════════════════════════
 st.markdown('<p class="section-title">📊 Résidus & volume hebdomadaire</p>', unsafe_allow_html=True)
 
 col5, col6 = st.columns(2, gap="medium")
@@ -414,9 +404,7 @@ with col6:
 
 st.markdown("<br>", unsafe_allow_html=True)
 
-# ═══════════════════════════════════════════════════════════════════════════════
-# SIMULATEUR
-# ═══════════════════════════════════════════════════════════════════════════════
+
 st.markdown('<p class="section-title">🔮 Simulateur de trafic</p>', unsafe_allow_html=True)
 
 pm1, pm2, pm3 = st.columns(3, gap="large")
@@ -466,7 +454,7 @@ with pm3:
         except Exception as e:
             st.error(f"Erreur : {e}")
 
-# ── Footer ────────────────────────────────────────────────────────────────────
+
 st.markdown("""
 <div style="text-align:center; font-family:'DM Mono',monospace; font-size:0.65rem;
             color:#333; padding: 2rem 0 0.5rem 0; border-top: 1px solid #1A1A1A; margin-top:2rem;">
