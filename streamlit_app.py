@@ -242,7 +242,7 @@ r2   = r2_score(y, y_pred)
 st.markdown(f"""
 <div class="hero">
   <div>
-    <p class="hero-title">Urban<span>Flow</span> · I-94</p>
+    <p class="hero-title">Traffic <span>· Ai</span> </p>
     <p class="hero-sub">Metro Interstate Traffic · Random Forest Regressor</p>
   </div>
   <div class="hero-badge">
