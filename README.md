@@ -85,9 +85,9 @@ Comment prédire efficacement le volume de trafic horaire afin de réduire les c
 
 ## 9. Résultats principaux
 
-* MAE : ~420 véhicules
-* RMSE : ~610 véhicules
-* R² : 0.92
+* MAE : ~150 véhicules
+* RMSE : ~243 véhicules
+* R² : 0.985
 * Les heures de pointe et la météo sont les features les plus importantes.
 
 ---
@@ -119,8 +119,8 @@ README.md
 1. Cloner le dépôt :
 
 ```bash
-git clone https://github.com/tonnom/traffic-smartcity.git
-cd traffic-smartcity
+git clone https://github.com/ChristianMDG/Traffic-Ai.git
+cd Traffic-Ai
 ```
 
 2. Créer un environnement virtuel :
@@ -144,19 +144,14 @@ pip install -r requirements.txt
 
 ## 13. Utilisation
 
-### Jupyter Notebook
-
-```bash
-jupyter notebook notebooks/traffic_prediction.ipynb
-```
-
-* Permet de visualiser le nettoyage, le feature engineering, l’entraînement et l’évaluation du modèle.
-
 ### Dashboard Streamlit
 
 ```bash
-streamlit run dashboard/streamlit.py
+streamlit run streamlit_app.py
 ```
+### Lien Dasboard en ligne
+
+[https://traffic-ai-3szvrge57wehtps7ghcb2d.streamlit.app/]
 
 * Permet de tester les prédictions en temps réel et explorer les résultats graphiques.
 
