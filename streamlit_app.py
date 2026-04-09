@@ -7,7 +7,6 @@ import joblib
 
 from sklearn.metrics import mean_absolute_error, mean_squared_error, r2_score
 
-
 st.set_page_config(
     page_title="Traffic · Ai",
     page_icon="🛣️",
@@ -15,16 +14,18 @@ st.set_page_config(
     initial_sidebar_state="collapsed",
 )
 
-
 st.markdown("""
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500&display=swap');
 
 html, body, [class*="css"] {
     font-family: 'DM Sans', sans-serif;
-    color: #E8E4DC;
+    color: #CBD8F1;
 }
-.stApp { background: #0F0F0F; }
+
+/* ── Fond bleu nuit profond ── */
+.stApp { background: #060B18; }
+
 .block-container {
     padding: 2.5rem 3rem 4rem 3rem !important;
     max-width: 1400px;
@@ -32,13 +33,13 @@ html, body, [class*="css"] {
 #MainMenu, footer, header { visibility: hidden; }
 .stDeployButton { display: none; }
 
-/* Hero */
+/* ── Hero ── */
 .hero {
     display: flex;
     align-items: flex-end;
     justify-content: space-between;
     padding: 2.5rem 0 1.5rem 0;
-    border-bottom: 1px solid #222;
+    border-bottom: 1px solid #0E1A35;
     margin-bottom: 2.5rem;
 }
 .hero-title {
@@ -47,79 +48,99 @@ html, body, [class*="css"] {
     font-weight: 800;
     letter-spacing: -0.03em;
     line-height: 1;
-    color: #F5F0E8;
+    color: #EAF0FF;
     margin: 0;
 }
-.hero-title span { color: #FF5C2B; }
+.hero-title span {
+    background: linear-gradient(90deg, #38BDF8, #6366F1);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
 .hero-sub {
     font-family: 'DM Mono', monospace;
     font-size: 0.72rem;
-    color: #555;
+    color: #2D4A7A;
     letter-spacing: 0.08em;
     text-transform: uppercase;
     margin-top: 0.6rem;
 }
 .hero-badge {
-    background: #1A1A1A;
-    border: 1px solid #2A2A2A;
+    background: #0A1628;
+    border: 1px solid #0E1E3D;
     border-radius: 8px;
     padding: 0.6rem 1.1rem;
     font-family: 'DM Mono', monospace;
     font-size: 0.68rem;
-    color: #666;
+    color: #2D4A7A;
     letter-spacing: 0.06em;
     text-align: right;
 }
-.hero-badge strong { color: #FF5C2B; display: block; font-size: 0.85rem; }
+.hero-badge strong {
+    background: linear-gradient(90deg, #38BDF8, #6366F1);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    display: block;
+    font-size: 0.95rem;
+}
 
-/* KPI cards */
+/* ── KPI Cards ── */
 .kpi-row { display: flex; gap: 1rem; margin-bottom: 2.5rem; }
 .kpi {
     flex: 1;
-    background: #141414;
-    border: 1px solid #1E1E1E;
-    border-radius: 12px;
+    background: #0A1628;
+    border: 1px solid #0E1E3D;
+    border-radius: 14px;
     padding: 1.4rem 1.6rem;
     position: relative;
     overflow: hidden;
-    transition: border-color 0.2s;
+    transition: border-color 0.25s, transform 0.2s;
 }
-.kpi:hover { border-color: #333; }
+.kpi:hover {
+    border-color: #1B3A6B;
+    transform: translateY(-2px);
+}
 .kpi::before {
     content: '';
     position: absolute;
     top: 0; left: 0; right: 0;
     height: 2px;
-    background: var(--accent, #FF5C2B);
+    background: var(--accent);
+}
+.kpi::after {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: radial-gradient(ellipse at top, var(--glow) 0%, transparent 65%);
+    pointer-events: none;
 }
 .kpi-label {
     font-family: 'DM Mono', monospace;
     font-size: 0.65rem;
-    letter-spacing: 0.1em;
+    letter-spacing: 0.12em;
     text-transform: uppercase;
-    color: #555;
+    color: #2D4A7A;
     margin-bottom: 0.5rem;
 }
 .kpi-value {
     font-family: 'Syne', sans-serif;
-    font-size: 2.1rem;
+    font-size: 2.2rem;
     font-weight: 700;
-    color: #F5F0E8;
+    color: #EAF0FF;
     line-height: 1;
 }
 .kpi-unit {
     font-family: 'DM Mono', monospace;
     font-size: 0.68rem;
-    color: #444;
-    margin-top: 0.35rem;
+    color: #1E3560;
+    margin-top: 0.4rem;
 }
 
-/* Section titles */
+/* ── Section titles ── */
 .section-title {
     font-family: 'Syne', sans-serif;
     font-size: 1.05rem;
     font-weight: 700;
-    color: #E8E4DC;
+    color: #CBD8F1;
     letter-spacing: -0.01em;
     margin: 0 0 1rem 0;
     display: flex;
@@ -130,28 +151,30 @@ html, body, [class*="css"] {
     content: '';
     flex: 1;
     height: 1px;
-    background: #1E1E1E;
+    background: linear-gradient(90deg, #0E1E3D, transparent);
     margin-left: 0.8rem;
 }
 
-/* Prediction result */
+/* ── Prediction result ── */
 .pred-result {
-    background: #FF5C2B18;
-    border: 1px solid #FF5C2B44;
-    border-radius: 10px;
+    background: linear-gradient(135deg, #0A1E4A 0%, #0D1533 100%);
+    border: 1px solid #1B3A8A;
+    border-radius: 12px;
     padding: 1.2rem 1.6rem;
     font-family: 'Syne', sans-serif;
-    font-size: 1.3rem;
+    font-size: 1.4rem;
     font-weight: 700;
-    color: #FF5C2B;
+    background-clip: text;
+    color: #38BDF8;
     text-align: center;
     margin-top: 1rem;
+    box-shadow: 0 0 30px #1B3A8A44;
 }
 
-/* Button */
+/* ── Button ── */
 .stButton > button {
-    background: #FF5C2B !important;
-    color: #0F0F0F !important;
+    background: linear-gradient(135deg, #1D4ED8, #6366F1) !important;
+    color: #EAF0FF !important;
     border: none !important;
     border-radius: 8px !important;
     font-family: 'Syne', sans-serif !important;
@@ -159,36 +182,40 @@ html, body, [class*="css"] {
     font-size: 0.9rem !important;
     letter-spacing: 0.02em !important;
     padding: 0.65rem 1.8rem !important;
-    transition: opacity 0.15s !important;
+    transition: opacity 0.15s, box-shadow 0.15s !important;
+    box-shadow: 0 0 20px #1D4ED844 !important;
 }
-.stButton > button:hover { opacity: 0.85 !important; }
+.stButton > button:hover {
+    opacity: 0.88 !important;
+    box-shadow: 0 0 30px #6366F166 !important;
+}
 
-hr { border-color: #1A1A1A !important; }
+hr { border-color: #0E1A35 !important; }
 </style>
 """, unsafe_allow_html=True)
 
-
-BG     = "#141414"
-FG     = "#E8E4DC"
-GRID   = "#1E1E1E"
-ACCENT = "#FF5C2B"
-BLUE   = "#3B82F6"
-GREEN  = "#22C55E"
-PURPLE = "#A78BFA"
-TEAL   = "#14B8A6"
+# ── Matplotlib palette bleu nuit ──────────────────────────────────────────────
+BG     = "#0A1628"
+FG     = "#CBD8F1"
+GRID   = "#0E1E3D"
+ACCENT = "#38BDF8"   # cyan électrique
+BLUE   = "#6366F1"   # indigo
+GREEN  = "#34D399"   # emerald
+PURPLE = "#A78BFA"   # violet
+TEAL   = "#22D3EE"   # teal
 
 plt.rcParams.update({
     "figure.facecolor": BG,
     "axes.facecolor":   BG,
-    "axes.edgecolor":   "#222",
-    "axes.labelcolor":  "#666",
-    "xtick.color":      "#555",
-    "ytick.color":      "#555",
+    "axes.edgecolor":   "#0E1E3D",
+    "axes.labelcolor":  "#2D4A7A",
+    "xtick.color":      "#2D4A7A",
+    "ytick.color":      "#2D4A7A",
     "text.color":       FG,
     "grid.color":       GRID,
     "grid.linewidth":   0.6,
-    "legend.facecolor": "#1A1A1A",
-    "legend.edgecolor": "#2A2A2A",
+    "legend.facecolor": "#0A1628",
+    "legend.edgecolor": "#0E1E3D",
     "legend.fontsize":  9,
     "axes.labelsize":   10,
     "xtick.labelsize":  9,
@@ -196,6 +223,7 @@ plt.rcParams.update({
     "font.family":      "monospace",
 })
 
+# ── Data loading ──────────────────────────────────────────────────────────────
 @st.cache_data
 def load_data():
     return pd.read_csv("./data/processed/traffic_features.csv")
@@ -216,7 +244,6 @@ def compute_predictions(_model, df):
 
     y_pred = _model.predict(df)
     return df, y, y_pred
-
 
 try:
     df_raw       = load_data()
@@ -241,7 +268,7 @@ r2   = r2_score(y, y_pred)
 st.markdown(f"""
 <div class="hero">
   <div>
-    <p class="hero-title">Traffic <span>· Ai</span> </p>
+    <p class="hero-title">Traffic <span>· Ai</span></p>
     <p class="hero-sub">Metro Interstate Traffic · Random Forest Regressor</p>
   </div>
   <div class="hero-badge">
@@ -251,25 +278,27 @@ st.markdown(f"""
 </div>
 """, unsafe_allow_html=True)
 
-
+# ═══════════════════════════════════════════════════════════════════════════════
+# KPI ROW
+# ═══════════════════════════════════════════════════════════════════════════════
 st.markdown(f"""
 <div class="kpi-row">
-  <div class="kpi" style="--accent:#FF5C2B">
+  <div class="kpi" style="--accent:linear-gradient(90deg,#38BDF8,#6366F1); --glow:#38BDF808;">
     <div class="kpi-label">R² Score</div>
     <div class="kpi-value">{r2:.3f}</div>
     <div class="kpi-unit">variance expliquée</div>
   </div>
-  <div class="kpi" style="--accent:#3B82F6">
+  <div class="kpi" style="--accent:#6366F1; --glow:#6366F108;">
     <div class="kpi-label">MAE</div>
     <div class="kpi-value">{mae:,.0f}</div>
     <div class="kpi-unit">véhicules / heure</div>
   </div>
-  <div class="kpi" style="--accent:#22C55E">
+  <div class="kpi" style="--accent:#34D399; --glow:#34D39908;">
     <div class="kpi-label">RMSE</div>
     <div class="kpi-value">{rmse:,.0f}</div>
     <div class="kpi-unit">véhicules / heure</div>
   </div>
-  <div class="kpi" style="--accent:#A78BFA">
+  <div class="kpi" style="--accent:#A78BFA; --glow:#A78BFA08;">
     <div class="kpi-label">Estimateurs</div>
     <div class="kpi-value">20</div>
     <div class="kpi-unit">max_depth = 10</div>
@@ -277,7 +306,9 @@ st.markdown(f"""
 </div>
 """, unsafe_allow_html=True)
 
-
+# ═══════════════════════════════════════════════════════════════════════════════
+# ROW 1 — Prédictions vs Réel | Distribution
+# ═══════════════════════════════════════════════════════════════════════════════
 st.markdown('<p class="section-title">📈 Analyse des prédictions</p>', unsafe_allow_html=True)
 
 col1, col2 = st.columns([2, 1], gap="medium")
@@ -286,9 +317,9 @@ with col1:
     n   = min(600, len(y))
     idx = np.arange(n)
     fig, ax = plt.subplots(figsize=(11, 3.8))
-    ax.fill_between(idx, y.values[:n], alpha=0.10, color=BLUE)
-    ax.plot(idx, y.values[:n], color=BLUE,   linewidth=1.1, label="Réel",  alpha=0.9)
-    ax.plot(idx, y_pred[:n],   color=ACCENT,  linewidth=1.1, label="Prévu", linestyle="--", alpha=0.9)
+    ax.fill_between(idx, y.values[:n], alpha=0.08, color=ACCENT)
+    ax.plot(idx, y.values[:n], color=ACCENT, linewidth=1.2, label="Réel",  alpha=0.95)
+    ax.plot(idx, y_pred[:n],   color=BLUE,   linewidth=1.2, label="Prévu", linestyle="--", alpha=0.9)
     ax.set_xlabel("Échantillons")
     ax.set_ylabel("Véhicules / h")
     ax.yaxis.set_major_formatter(mticker.FuncFormatter(lambda x, _: f"{int(x):,}"))
@@ -313,7 +344,9 @@ with col2:
 
 st.markdown("<br>", unsafe_allow_html=True)
 
-
+# ═══════════════════════════════════════════════════════════════════════════════
+# ROW 2 — Features | Heure
+# ═══════════════════════════════════════════════════════════════════════════════
 st.markdown('<p class="section-title">🔍 Importance & patterns horaires</p>', unsafe_allow_html=True)
 
 col3, col4 = st.columns(2, gap="medium")
@@ -340,7 +373,7 @@ with col4:
     if "hour" in df_raw.columns and "traffic_volume" in df_raw.columns:
         hour_avg = df_raw.groupby("hour")["traffic_volume"].mean()
         peak_h   = hour_avg.idxmax()
-        c_bars   = [ACCENT if h == peak_h else GREEN for h in hour_avg.index]
+        c_bars   = [ACCENT if h == peak_h else BLUE for h in hour_avg.index]
 
         fig, ax = plt.subplots(figsize=(6, 5.5))
         ax.bar(hour_avg.index, hour_avg.values, color=c_bars, width=0.75)
@@ -358,6 +391,9 @@ with col4:
 
 st.markdown("<br>", unsafe_allow_html=True)
 
+# ═══════════════════════════════════════════════════════════════════════════════
+# ROW 3 — Résidus | Semaine
+# ═══════════════════════════════════════════════════════════════════════════════
 st.markdown('<p class="section-title">📊 Résidus & volume hebdomadaire</p>', unsafe_allow_html=True)
 
 col5, col6 = st.columns(2, gap="medium")
@@ -365,9 +401,9 @@ col5, col6 = st.columns(2, gap="medium")
 with col5:
     residuals = y.values - y_pred
     fig, ax = plt.subplots(figsize=(6, 3.8))
-    ax.hist(residuals, bins=70, color=ACCENT, edgecolor="none", alpha=0.8)
-    ax.axvline(0, color=FG, linestyle="--", linewidth=1, alpha=0.5, label="Zéro")
-    ax.axvline(residuals.mean(), color=BLUE, linestyle=":", linewidth=1.2,
+    ax.hist(residuals, bins=70, color=BLUE, edgecolor="none", alpha=0.8)
+    ax.axvline(0, color=FG, linestyle="--", linewidth=1, alpha=0.4, label="Zéro")
+    ax.axvline(residuals.mean(), color=ACCENT, linestyle=":", linewidth=1.3,
                alpha=0.9, label=f"Moyenne {residuals.mean():+.0f}")
     ax.set_xlabel("Erreur (Réel − Prévu)")
     ax.set_ylabel("Fréquence")
@@ -391,7 +427,7 @@ with col6:
                color=c_days, width=0.6)
         ax.set_ylabel("Volume moyen")
         ax.yaxis.set_major_formatter(mticker.FuncFormatter(lambda x, _: f"{int(x/1000)}k"))
-        ax.legend(handles=[Patch(color=BLUE, label="Semaine"),
+        ax.legend(handles=[Patch(color=BLUE,   label="Semaine"),
                             Patch(color=ACCENT, label="Week-end")],
                   loc="lower right")
         ax.spines[["top","right","left","bottom"]].set_visible(False)
@@ -404,7 +440,9 @@ with col6:
 
 st.markdown("<br>", unsafe_allow_html=True)
 
-
+# ═══════════════════════════════════════════════════════════════════════════════
+# SIMULATEUR
+# ═══════════════════════════════════════════════════════════════════════════════
 st.markdown('<p class="section-title">🔮 Simulateur de trafic</p>', unsafe_allow_html=True)
 
 pm1, pm2, pm3 = st.columns(3, gap="large")
@@ -435,9 +473,12 @@ with pm3:
         is_weekend  = 1 if weekday_val >= 5 else 0
 
         input_df = pd.DataFrame([{
-            "hour": hour_input, "weekday": weekday_val,
-            "is_weekend": is_weekend, "month": month_input,
-            "temp": temp_input, "rain_1h": rain_input,
+            "hour":       hour_input,
+            "weekday":    weekday_val,
+            "is_weekend": is_weekend,
+            "month":      month_input,
+            "temp":       temp_input,
+            "rain_1h":    rain_input,
             "clouds_all": clouds_input,
         }])
         input_df = input_df.reindex(columns=model.feature_names_in_, fill_value=0)
@@ -454,10 +495,11 @@ with pm3:
         except Exception as e:
             st.error(f"Erreur : {e}")
 
-
+# ── Footer ────────────────────────────────────────────────────────────────────
 st.markdown("""
 <div style="text-align:center; font-family:'DM Mono',monospace; font-size:0.65rem;
-            color:#333; padding: 2rem 0 0.5rem 0; border-top: 1px solid #1A1A1A; margin-top:2rem;">
-  UrbanFlow · Metro Interstate Traffic Volume Dataset · Random Forest Regressor
+            color:#0E2050; padding: 2rem 0 0.5rem 0;
+            border-top: 1px solid #0A1830; margin-top:2rem;">
+  Traffic · Ai &nbsp;·&nbsp; Metro Interstate Traffic Volume Dataset &nbsp;·&nbsp; Random Forest Regressor
 </div>
 """, unsafe_allow_html=True)
